@@ -1,0 +1,26 @@
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+#      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    configs:
+      - source: caddyfile_config
+        target: /etc/caddy/Caddyfile
+    networks:
+      - global-network
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  global-network:
+    name: global-network
+    driver: bridge
